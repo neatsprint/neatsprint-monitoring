@@ -7,7 +7,7 @@ NeatSprint **Monitoring Service**.
 | Service name | `monitoring` |
 | Container port | `8000` |
 | Host port (dev) | `8006` |
-| Gateway prefix | `/api/v1/monitoring` |
+| Gateway prefix | `/api/v1/monitor` |
 | Database | `db_monitoring` |
 | Owner | OpenCade (AI) / Laksiri (approval) |
 
@@ -24,7 +24,7 @@ cp .env.example .env
 uv run uvicorn neatsprint_monitoring.main:app --reload --port 8000
 ```
 
-Or from the orchestrator: `docker compose up -d monitoring`.
+Or from the orchestrator: `docker compose up -d neatsprint-monitoring`.
 
 ## Endpoints
 
