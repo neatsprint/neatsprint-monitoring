@@ -16,6 +16,7 @@ from neatsprint_lib.errors import install_error_handlers
 from neatsprint_lib.events import run_relay
 from neatsprint_lib.logging import configure_logging
 
+from neatsprint_monitoring.api.internal import router as internal_router
 from neatsprint_monitoring.api.router import router
 from neatsprint_monitoring.services.jobs import run_privacy_jobs
 from neatsprint_monitoring.settings import settings
@@ -116,6 +117,7 @@ app.include_router(
     )
 )
 app.include_router(router, prefix=f"/api/v1/{settings.api_prefix}")
+app.include_router(internal_router)
 
 
 @app.get("/", include_in_schema=False)
