@@ -39,7 +39,11 @@ async def promote_available(
             event_type="screenshot.available",
             tenant_id=screenshot.tenant_id,
             actor_id=screenshot.user_id,
-            payload={"screenshot_id": str(screenshot.id), "user_id": str(screenshot.user_id)},
+            payload={
+                "screenshot_id": str(screenshot.id),
+                "user_id": str(screenshot.user_id),
+                "captured_at": screenshot.captured_at.isoformat(),
+            },
         )
     await session.commit()
     return len(rows)
@@ -76,7 +80,11 @@ async def expire_retention(
             event_type="screenshot.expired",
             tenant_id=screenshot.tenant_id,
             actor_id=screenshot.user_id,
-            payload={"screenshot_id": str(screenshot.id)},
+            payload={
+                "screenshot_id": str(screenshot.id),
+                "user_id": str(screenshot.user_id),
+                "captured_at": screenshot.captured_at.isoformat(),
+            },
         )
         expired += 1
     await session.commit()

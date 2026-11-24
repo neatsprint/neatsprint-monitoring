@@ -679,7 +679,11 @@ async def delete_screenshot(
         event_type="screenshot.deleted",
         tenant_id=principal.tenant_id,
         actor_id=principal.user_id,
-        payload={"screenshot_id": str(screenshot.id)},
+        payload={
+            "screenshot_id": str(screenshot.id),
+            "user_id": str(screenshot.user_id),
+            "captured_at": screenshot.captured_at.isoformat(),
+        },
     )
     await session.commit()
     return Response(status_code=204)
@@ -708,7 +712,11 @@ async def promote_screenshot(
         event_type="screenshot.available",
         tenant_id=principal.tenant_id,
         actor_id=principal.user_id,
-        payload={"screenshot_id": str(screenshot.id), "user_id": str(screenshot.user_id)},
+        payload={
+            "screenshot_id": str(screenshot.id),
+            "user_id": str(screenshot.user_id),
+            "captured_at": screenshot.captured_at.isoformat(),
+        },
     )
     await session.commit()
     return JSONResponse(envelope(request, _shot_payload(screenshot, now=now)))
