@@ -22,6 +22,8 @@ class Settings(ServiceSettings):
     capture_interval_seconds: int = 420
     job_interval_seconds: int = 30
     monitoring_encryption_key: str = "dev-monitoring-key-change-me"
+    clamav_host: str | None = None
+    clamav_port: int = 3310
 
 
 settings = Settings()

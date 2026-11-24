@@ -33,6 +33,7 @@ from neatsprint_monitoring.db.models import (
 )
 from neatsprint_monitoring.services import crypto, storage, worklog
 from neatsprint_monitoring.services.team_scope import scope_for_user
+from neatsprint_monitoring.services.upload_guard import validate_upload, virus_scan
 
 router = APIRouter(tags=["monitor"])
 
@@ -462,10 +463,8 @@ async def upload_screenshot(
     if content_type not in ALLOWED_TYPES:
         raise ApiError(415, "unsupported_media_type", "That image type is not supported.")
     body = await file.read()
-    if not body:
-        raise ApiError(422, "validation_failed", "The image is empty.")
-    if len(body) > settings.screenshot_max_bytes:
-        raise ApiError(413, "payload_too_large", "The image is too large.")
+    validate_upload(body, content_type, max_bytes=settings.screenshot_max_bytes)
+    await virus_scan(settings, body)
     content_hash = hashlib.sha256(body).hexdigest()
     existing = (
         await session.execute(
